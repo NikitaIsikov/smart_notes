@@ -11,7 +11,7 @@ if (isset($_POST['delete'])) {
 	$result = mysqli_query($con, $request);
 }
 
-if (isset($_POST[$make_id])) {
+if (isset($_POST['make_new'])) {
 	$userid = $_POST['userid'];
 	$date = $_POST['date'];
 	$name = $_POST['name'];

@@ -41,11 +41,6 @@
 					$login = $_COOKIE['login'];
 					$email = $_COOKIE['email'];
 
-					$comment_query = "SELECT comment FROM users WHERE email = '$email'";
-					$com = mysqli_query($con, $comment_query);
-					$fetch_com = mysqli_fetch_assoc($com);
-					extract($fetch_com);
-
 					if (!isset($_POST['chosendate'])) {
 						$chosendate = 0;
 					} else {

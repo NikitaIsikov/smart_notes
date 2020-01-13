@@ -219,13 +219,12 @@ function showDay($date, $searchfor, $notes, $color = 0) {
 <?php
 $modal_id = $searchfor;
 $make_id = 'make' . $modal_id;
-if (isset($_POST[$make_id])) {
+if (isset($_POST['make_new'])) {
 	require 'note_action.php';
 }
 
 ?>
 					<input type="hidden" name="date" value="<?=$searchfor?>">
-					<input type="hidden" name="make_new" value="">
 					<button type="button" class="add_button" data-toggle="modal" data-target="#Modal<?=$modal_id?>">
 						<h2 style="margin: 0px;">+</h2>
 					</button>
@@ -242,21 +241,16 @@ if (isset($_POST[$make_id])) {
 								      <div class="modal-body">
 								      	<div class="formholder">
 									        <p><input type="text" name="name" placeholder="note name" class="w-100"></p>
-									        <!--input type="textarea" name="content" placeholder="content"-->
 									        <p><textarea name="content" placeholder="content" rows="8" class="w-100"></textarea></p>
-									        <?=$searchfor?>
-									        <?=$_COOKIE['id']?>
 									        <input type="hidden" name="date" value="<?=$searchfor?>">
 									        <input type="hidden" name="userid" value="<?=$_COOKIE['id']?>">
 									    </div>
 								      </div>
 								      <div class="modal-footer">
 								      	<input type="hidden" name="<?=$make_id?>" value="">
-								        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>      
+								        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>      
 								        <button type="submit" class="btn btn-primary">Create</button>
 							        </form>
-<?php
-?>
 							      </div>
 							    </div>
 							  </div>
@@ -271,13 +265,16 @@ if (isset($_POST[$make_id])) {
 			$idKey = 0;
 			//createModals($notes[$searchfor]);
 			foreach ($notes[$searchfor] as $key => $note) {
-				$name = $note['name'];
-				$modal_id = $searchfor . 'del' . $idKey;
+				$name 		   = $note['name'];
+				$content	   = $note['content'];
+				$noteid		   = $note['id'];
+				$modal_id 	   = $searchfor . 'del' . $idKey;
+				$modal_id_edit = $searchfor . 'edit' . $idKey;
 				//echo $modal_id;
 		?>
 				<tr>
-					<td style="vertical-align: top;">
-							<button type="button" class="del_button" data-toggle="modal" data-target="#Modal<?=$modal_id?>">
+					<td style="vertical-align: top; width: 52px;">
+							<button type="button" class="del_button" data-toggle="modal" data-target="#Modal<?=$modal_id?>" style="display: table-cell;">
 								<span style="margin: 0px;">+</span>
 							</button>
 							<div class="modal fade" id="Modal<?=$modal_id?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -290,37 +287,61 @@ if (isset($_POST[$make_id])) {
 							        </button>
 							      </div>
 							      <div class="modal-body">
-							        Are you sure to delete note "<?=$note['name']?>" with id "<?=$note['id']?>"
+							        Are you sure to delete note "<?=$name?>"
 							      </div>
 							      <div class="modal-footer">
 <?php
-//$delete_id = 'delete' . $modal_id;
 if (isset($_POST['delete'])) {
 	require 'note_action.php';
 }
 ?>
 							      	<form method="POST">
-								      	<input type="hidden" name="noteid" value="<?=$note['id']?>">
+								      	<input type="hidden" name="noteid" value="<?=$noteid?>">
 								      	<input type="hidden" name="delete" value="">
-								        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								        <a href="note_action.php">
-								        	<button type="submit" class="btn btn-primary">Delete note</button>
-								        </a>
+								        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+								        <button type="submit" class="btn btn-primary">Delete note</button>
 							        </form>
 							      </div>
 							    </div>
 							  </div>
 							</div>
-						
-
-						<form method="POST">
-							<input type="hidden" name="id" value="<?=$note['id']?>">
-							<input type="hidden" name="id" value="<?=$note['name']?>">
-							<input type="hidden" name="id" value="<?=$note['content']?>">
-							<button type="submit" class="edit_button">
+						<!-- edit button -->
+							<button type="button" class="edit_button" data-toggle="modal" data-target="#Modal<?=$modal_id_edit?>" style="display: table-cell;">
 								<span style="margin: 0px;">...</span>
 							</button>
-						</form>
+							<div class="modal fade" id="Modal<?=$modal_id_edit?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							          <span aria-hidden="true">&times;</span>
+							        </button>
+							      </div>
+							      <?php
+									if (isset($_POST['edit'])) {
+										require 'note_action.php';
+									}
+								  ?>
+								  <form method="POST">
+								      <div class="modal-body">
+								      	<div class="formholder">
+									        <p><input type="text" name="name" value="<?=$name?>" class="w-100"></p>
+									        <p><textarea name="content" rows="8" class="w-100"><?=$content?></textarea></p>
+									    </div>
+								      </div>
+								      <div class="modal-footer">
+									      	<input type="hidden" name="noteid" value="<?=$noteid?>">
+									      	<input type="hidden" name="edit" value="">
+									        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+									        <a href="note_action.php">
+									        	<button type="submit" class="btn btn-primary">Save changes</button>
+									        </a>
+									  </div>
+							        </form>  
+							    </div>
+							  </div>
+							</div>
 					</td>
 					<td>								
 						<h2 style="margin-top: 5px;"><?=$note['name']?></h2>
