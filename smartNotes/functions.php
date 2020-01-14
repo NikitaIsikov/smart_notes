@@ -122,18 +122,22 @@ function login_validate() {
 	}
 }
 
+function timeTrack($chosendate) {
+		if (!isset($_POST['prevweek']) && !isset($_POST['nextweek'])) {
+			$startdate = strtotime("Monday");
+			$chosendate = $startdate;
+			$chosendate = strtotime("-1 week", $chosendate);
+		} elseif (isset($_POST['prevweek']) || isset($_POST['nextweek'])) {
+			$chosendate = $chosendate - 604800;
+		} 
+		if (isset($_POST['nextweek'])) {
+			$chosendate = $chosendate + 2 * 604800;
+		}
+	return $chosendate;
+}
+
 function calendar($chosendate, $notes) {
-	if (!isset($_POST['prevweek']) && !isset($_POST['nextweek'])) {
-		$startdate = strtotime("Monday");
-		$startdate = strtotime("-1 week", $startdate);
-		$chosendate = $startdate;
-	} elseif (isset($_POST['prevweek'])) {
-		$chosendate = $chosendate - 604800;
-	} elseif (isset($_POST['nextweek'])) {
-		$chosendate = $chosendate + 604800;
-	}
 	$today = strtotime('today');
-	//echo $today . '<br>';
 	$endweek=strtotime("+6 days", $chosendate);
 
 	while ($chosendate <= $endweek) {
@@ -247,7 +251,7 @@ if (isset($_POST['make_new'])) {
 									    </div>
 								      </div>
 								      <div class="modal-footer">
-								      	<input type="hidden" name="<?=$make_id?>" value="">
+								      	<input type="hidden" name="make_new" value="">
 								        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>      
 								        <button type="submit" class="btn btn-primary">Create</button>
 							        </form>
@@ -318,27 +322,26 @@ if (isset($_POST['delete'])) {
 							          <span aria-hidden="true">&times;</span>
 							        </button>
 							      </div>
-							      <?php
-									if (isset($_POST['edit'])) {
-										require 'note_action.php';
-									}
-								  ?>
 								  <form method="POST">
 								      <div class="modal-body">
 								      	<div class="formholder">
 									        <p><input type="text" name="name" value="<?=$name?>" class="w-100"></p>
 									        <p><textarea name="content" rows="8" class="w-100"><?=$content?></textarea></p>
+									        <input type="hidden" name="noteid" value="<?=$noteid?>">
+									      	<input type="hidden" name="edit" value="">
 									    </div>
 								      </div>
 								      <div class="modal-footer">
-									      	<input type="hidden" name="noteid" value="<?=$noteid?>">
-									      	<input type="hidden" name="edit" value="">
+									      	
 									        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-									        <a href="note_action.php">
-									        	<button type="submit" class="btn btn-primary">Save changes</button>
-									        </a>
+									        <button type="submit" class="btn btn-primary">Save changes</button>
 									  </div>
-							        </form>  
+							       </form>
+							       <?php
+										if (isset($_POST['edit'])) {
+											require 'note_action.php';
+										}
+								   ?>
 							    </div>
 							  </div>
 							</div>

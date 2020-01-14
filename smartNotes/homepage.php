@@ -29,13 +29,12 @@
 				if (count($_COOKIE) > 0) {
 					$notes = getNotes();
 					$refresh_switch = 0;
-					/*
+					
 					echo "<pre>";
 					print_r($_POST);
 					echo "</pre>";
-					*/
+					
 					date_default_timezone_set("Europe/Kiev");
-					//echo date("Y/M/d, H:i:s");
 
 					$con   = mysqli_connect('localhost', 'root', '', 'smart_notes');
 					$login = $_COOKIE['login'];
@@ -43,10 +42,35 @@
 
 					if (!isset($_POST['chosendate'])) {
 						$chosendate = 0;
+						$chosendate = timeTrack($chosendate);
 					} else {
 						$chosendate = $_POST['chosendate'];
+						$chosendate = timeTrack($chosendate);
 					}
+					
 					?>
+
+					<form method="post">
+						<p style="margin: 20px 0px 20px 0px;">
+							<div class="btn-group" role="group" aria-label="Basic example">
+								<button class="btn blue_reg_button" type="submit" name="prevweek">prev</button>
+								<button class="btn blue_reg_button" type="submit" name="curweek">current</button>
+								<button class="btn blue_reg_button" type="submit" name="nextweek">next</button>
+							</div>
+						</p>
+						<input type="hidden" name="chosendate" value="<?=$chosendate?>">
+					</form>
+					<?php 
+						if (isset($_POST['prevweek'])) {
+							//$chosendate = $chosendate + 604800;
+						} elseif (isset($_POST['nextweek'])) {
+							//$chosendate = $chosendate - 604800;
+						} elseif (isset($_POST['curweek'])) {
+							//$chosendate = $chosendate - 604800;
+						}
+						calendar($chosendate, $notes);
+					?>
+						
 					<form method="post">
 						<p style="margin: 20px 0px 20px 0px;">
 							<div class="btn-group" role="group" aria-label="Basic example">
@@ -54,17 +78,8 @@
 								<button class="btn blue_reg_button" type="refresh">current</button>
 								<button class="btn blue_reg_button" type="submit" name="nextweek">next</button>
 							</div>
-							
 						</p>
-						<?php $chosendate = calendar($chosendate, $notes) ?>
 						<input type="hidden" name="chosendate" value="<?=$chosendate?>">
-						<p style="margin: 20px 0px 20px 0px;">
-							<div class="btn-group" role="group" aria-label="Basic example">
-								<button class="btn blue_reg_button" type="submit" name="prevweek">prev</button>
-								<button class="btn blue_reg_button" type="refresh">current</button>
-								<button class="btn blue_reg_button" type="submit" name="nextweek">next</button>
-							</div>
-						</p>
 					</form>
 				<?php 
 				} else {

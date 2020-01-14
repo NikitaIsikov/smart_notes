@@ -18,6 +18,7 @@ if (isset($_POST['make_new'])) {
 	$content = $_POST['content'];
 	$name = trim($name);
 	$content = trim($content);
+	$_POST = array();
 
 	$con = mysqli_connect('localhost', 'root', '', 'smart_notes');
 	$request = "INSERT INTO notes
@@ -26,6 +27,18 @@ if (isset($_POST['make_new'])) {
 
 	$result = mysqli_query($con, $request);
 	//echo $result;
+}
+
+if (isset($_POST['edit'])) {
+	$id = $_POST['noteid'];
+	$name = $_POST['name'];
+	$content = $_POST['content'];
+	$_POST = array();
+
+	$con = mysqli_connect('localhost', 'root', '', 'smart_notes');
+	$request = "UPDATE notes SET name = '$name', content = '$content' WHERE id = $id";
+
+	$result = mysqli_query($con, $request);
 }
 ?>
 <script type="text/javascript">
