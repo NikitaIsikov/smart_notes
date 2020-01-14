@@ -18,7 +18,7 @@
 			<h2>Log in</h2>
 			<p><input type="text" name="login_email" placeholder="login or email"></p>
 			<p><input type="password" name="pw" placeholder="password"></p>
-			<p><input type="checkbox" name="remember" style="width: auto;"> Remember me</p>
+			<!--p><input type="checkbox" name="remember" style="width: auto;"> Remember me</p-->
 			<?php login_validate(); ?>
 			<p><button type="submit" class="blue_reg_button">Log in!</button></p>
 		</form>

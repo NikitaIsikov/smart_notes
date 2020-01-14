@@ -29,11 +29,11 @@
 				if (count($_COOKIE) > 0) {
 					$notes = getNotes();
 					$refresh_switch = 0;
-					
+					/*
 					echo "<pre>";
 					print_r($_POST);
 					echo "</pre>";
-					
+					*/
 					date_default_timezone_set("Europe/Kiev");
 
 					$con   = mysqli_connect('localhost', 'root', '', 'smart_notes');

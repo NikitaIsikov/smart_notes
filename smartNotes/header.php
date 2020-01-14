@@ -27,7 +27,7 @@
       <li class="nav-item active">
         <a class="nav-link" href="#">Notes<span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
+      <!--li class="nav-item">
         <a class="nav-link" href="#">Home</a>
       </li>
       <li class="nav-item dropdown">
@@ -40,7 +40,7 @@
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
-      </li>
+      </li-->
     </ul>
     <?php
     if (count($_COOKIE) == 0) {
