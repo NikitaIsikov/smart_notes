@@ -105,11 +105,11 @@ function login_validate() {
 				setcookie('login', $login, time() + 86400 * 14, "/");
 				setcookie('email', $email, time() + 86400 * 14, "/");
 				setcookie('pw', $pw, time() + 86400 * 14, "/");
-				if ($remember == 'off') {
+				/*if ($remember == 'off') {
 					setcookie('remember', 0, time() + 86400 * 14, "/");
 				} elseif ($remember == 'on') {
 					setcookie('remember', 1, time() + 86400 * 14, "/");
-				}
+				}*/
 				header('Location: homepage.php');
 			} else {
 				echo "<p><span>Error! Wrong password</span></p>";
